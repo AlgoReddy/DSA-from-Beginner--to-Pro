@@ -1,0 +1,136 @@
+Nice — let’s dry-run the `subset` function step-by-step so you see exactly how `outer` grows at each line. I’ll use your input `arr = {1,2,3}` and explain why each line is important.
+
+# Quick algorithm summary
+
+* Start with `outer = [[]]` (one subset: the empty subset).
+* For each `num` in `arr`, take all subsets that exist *right now* (capture `n = outer.size()`), make a copy of each, add `num` to that copy, and append the copy to `outer`.
+* After processing all numbers, `outer` contains all `2^N` subsets.
+
+---
+
+# Line-by-line dry run (arr = {1,2,3})
+
+Initial state before loop:
+
+```
+outer = [ [] ]   // one empty subset
+```
+
+### Processing `num = 1`
+
+* `n = outer.size()` → `n = 1`
+* Inner loop `i = 0` (only iteration because n = 1):
+
+  * `outer.get(0)` = `[]`
+  * `internal = new ArrayList<>(outer.get(0))` → `internal = []` (a new list copy)
+  * `internal.add(1)` → `internal = [1]`
+  * `outer.add(internal)` → append `[1]`
+* State after `num = 1`:
+
+```
+outer = [ [], [1] ]
+```
+
+### Processing `num = 2`
+
+* `n = outer.size()` → `n = 2` (we captured size BEFORE we start adding new subsets)
+* Inner loop:
+
+  * `i = 0`:
+
+    * `outer.get(0)` = `[]`
+    * `internal = []` (copy)
+    * `internal.add(2)` → `[2]`
+    * `outer.add([2])`
+    * outer becomes: `[ [], [1], [2] ]`
+  * `i = 1`:
+
+    * `outer.get(1)` = `[1]`
+    * `internal = [1]` (copy)
+    * `internal.add(2)` → `[1, 2]`
+    * `outer.add([1, 2])`
+    * outer becomes: `[ [], [1], [2], [1, 2] ]`
+
+### Processing `num = 3`
+
+* `n = outer.size()` → `n = 4`
+* Inner loop:
+
+  * `i = 0`:
+
+    * `outer.get(0)` = `[]`
+    * `internal = []` → add 3 → `[3]`
+    * append → outer: `[ [], [1], [2], [1,2], [3] ]`
+  * `i = 1`:
+
+    * `outer.get(1)` = `[1]`
+    * `internal = [1]` → add 3 → `[1,3]`
+    * append → outer: `[ ..., [3], [1,3] ]`
+  * `i = 2`:
+
+    * `outer.get(2)` = `[2]`
+    * `internal = [2]` → add 3 → `[2,3]`
+    * append → outer: `[ ..., [2,3] ]`
+  * `i = 3`:
+
+    * `outer.get(3)` = `[1,2]`
+    * `internal = [1,2]` → add 3 → `[1,2,3]`
+    * append → outer final
+
+Final `outer`:
+
+```
+[ [], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3] ]
+```
+
+---
+
+# Why some details matter
+
+1. **Why `int n = outer.size();` (capture size)?**
+
+   * If you used `for (int i = 0; i < outer.size(); i++)`, `outer.size()` would grow inside the loop (because you keep adding), and the loop would keep iterating over newly added subsets — causing incorrect behavior or effectively an infinite-growing loop for that `num`. Capturing `n` ensures you only iterate the subsets that existed *before* adding `num`.
+
+2. **Why `new ArrayList<>(outer.get(i))` (copy)?**
+
+   * You must copy the existing subset before adding `num`. If you did `List<Integer> internal = outer.get(i)` (no copy) and then `internal.add(num)`, you'd mutate the original subset object stored in `outer`. Because Java stores references, multiple entries in `outer` could end up pointing to the same list object — which will produce wrong results.
+
+3. **Order of subsets**
+
+   * This algorithm produces subsets in a predictable iterative order (based on insertion order): after processing `k` elements the first `2^k` entries are all subsets using only the first `k` numbers. It’s not lexicographic by subset content, but it's consistent and useful.
+
+4. **Complexity**
+
+   * Time: $O(N \times 2^N)$ — there are $2^N$ subsets, and copying / adding each subset costs up to O(N) in the worst case.
+   * Space: $O(N \times 2^N)$ to store all subsets.
+
+---
+
+# Annotated version of your function (comments inline)
+
+```java
+static List<List<Integer>> subset(int[] arr) {
+    List<List<Integer>> outer = new ArrayList<>();
+    outer.add(new ArrayList<>());        // start with empty subset
+
+    for (int num : arr) {
+        int n = outer.size();           // capture current number of subsets
+        for (int i = 0; i < n; i++) {
+            // copy the i-th subset (so we don't mutate the original)
+            List<Integer> internal = new ArrayList<>(outer.get(i));
+            internal.add(num);          // add current number to the copy
+            outer.add(internal);        // append the new subset
+        }
+    }
+    return outer;
+}
+```
+
+---
+
+If you want, I can:
+
+* Draw a compact ASCII tree that visualizes subset expansion, or
+* Show how this differs from a recursive (backtracking) approach and give that recursive version too.
+
+Which would help you more next?

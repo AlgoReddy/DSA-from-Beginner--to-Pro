@@ -1,0 +1,36 @@
+{
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": ["lib/**/*.jar"],
+  "code-runner.ignoreSelection": true,
+
+  "code-runner.runInTerminal": true,
+  "code-runner.clearPreviousOutput": true,
+
+  "java.project.sourcePaths": ["src"],
+
+  "code-runner.executorMap": {
+    "java": "cd $workspaceRoot && javac -d bin $(find src -name '*.java') && java -cp bin ${filePathRelativeToWorkspaceFolderWithoutExt/.*src\\//}"
+  },
+  // "code-runner.executorMap": {
+  //   "javascript": "node",
+  //   "php": "C:\\php\\php.exe",
+  //   "python": "python",
+  //   "perl": "perl",
+  //   "ruby": "C:\\Ruby23-x64\\bin\\ruby.exe",
+  //   "go": "go run",
+  //   "html": "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"",
+  //   "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
+  //    "java": "cd $workspaceRoot && javac $relativeFile && java -cp . $packageName.$fileNameWithoutExt"
+
+  // },
+
+  // "code-runner.executorMap": {
+  //   "java": "cd $workspaceRoot && javac -d bin src/$fileName && java -cp bin ${fileDirname##*/}.${fileNameWithoutExt}"
+
+  //   // "java": "cd $dir/../ && javac arrays/$fileName && java arrays.$fileNameWithoutExt"
+  // },
+  // always run in the integrated terminal
+
+  "code-runner.saveFileBeforeRun": true,
+  "java.debug.settings.onBuildFailureProceed": true
+}
