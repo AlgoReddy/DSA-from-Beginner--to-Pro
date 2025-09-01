@@ -1,6 +1,6 @@
 package advancedjavaconcepts.exceptionhandling.simpletry;
 
-public class DivideImpl5 implements basic {
+public class MultiCatch implements basic {
     @Override
     public void divide(Integer... array) {
         try {
@@ -12,6 +12,8 @@ public class DivideImpl5 implements basic {
             System.out.println(
                     " can't divide the number by the zer0 ");
 
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.out.println("minimum two arguements are needed ");
         }
 
     }

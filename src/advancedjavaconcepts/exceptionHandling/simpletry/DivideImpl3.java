@@ -1,4 +1,4 @@
-package advancedjavaconcepts.exceptionHandling.simpletry;
+package advancedjavaconcepts.exceptionhandling.simpletry;
 
 public class DivideImpl3 implements basic {
     @Override

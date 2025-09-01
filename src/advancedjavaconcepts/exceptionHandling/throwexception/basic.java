@@ -1,4 +1,5 @@
-package advancedjavaconcepts.exceptionhandling.simpletry;
+package advancedjavaconcepts.exceptionhandling.throwexception;
+
 
 public interface basic {
 

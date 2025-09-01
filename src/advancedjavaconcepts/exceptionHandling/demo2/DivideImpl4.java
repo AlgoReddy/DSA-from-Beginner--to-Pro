@@ -1,6 +1,6 @@
-package advancedjavaconcepts.exceptionhandling.simpletry;
+package advancedjavaconcepts.exceptionhandling.demo2;
 
-public class DivideImpl5 implements basic {
+public class DivideImpl4 implements basic {
     @Override
     public void divide(Integer... array) {
         try {
@@ -8,9 +8,8 @@ public class DivideImpl5 implements basic {
             int quotient = 0;
             quotient = array[0] / array[1];
             System.out.println("quotient of " + array[0] + "quotient of " + array[1] + "is" + quotient);
-        } catch (ArithmeticException exception) {
-            System.out.println(
-                    " can't divide the number by the zer0 ");
+        } catch (ArithmeticException yashException) {
+            System.out.println(yashException.getMessage());
 
         }
 

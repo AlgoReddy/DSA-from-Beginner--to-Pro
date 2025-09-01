@@ -1,4 +1,4 @@
-package advancedjavaconcepts.exceptionhandling.simpletry;
+package advancedjavaconcepts.exceptionhandling.demo2;
 
 public class DivideImpl implements basic {
 
